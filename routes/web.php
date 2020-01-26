@@ -11,15 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('is_admin');
-
 Auth::routes();
+
+// Routes voor willekeurige bezoekers
+Route::get('/', function () {return view('welcome');});
+
+// Routes voor consultants
+Route::get('/home', 'HomeController@index')->name('home');
 
 // Routes voor admins
 Route::middleware(['auth', 'is_admin'])->group(function () {
-
-    Route::get('/home', 'HomeController@index')->name('home');
 
 });
