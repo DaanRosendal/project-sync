@@ -13,4 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware('is_admin');
+
+Auth::routes();
+
+// Routes voor admins
+Route::middleware(['auth', 'is_admin'])->group(function () {
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
 });
