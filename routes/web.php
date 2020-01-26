@@ -18,6 +18,8 @@ Route::get('/', function () {return view('welcome');});
 
 // Routes voor consultants
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/declareren', function () {return view('user.declareren');})->name('declareren');
+Route::get('/rapporten', function () {return view('user.rapporten');})->name('rapporten');
 
 // Routes voor admins
 Route::middleware(['auth', 'is_admin'])->group(function () {

@@ -35,15 +35,15 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             @if(Auth::user()->is_admin == false)
-                                <a class="nav-link" href="{{ route('login') }}">Home</a>
-                                <a class="nav-link" href="{{ route('login') }}">Declareren</a>
-                                <a class="nav-link" href="{{ route('login') }}">Rapporten</a>
+                                <a class="nav-link {{ Request::path() === 'home' ? 'active' : '' }}" href="{{ route('login') }}">Home</a>
+                                <a class="nav-link {{ Request::path() === 'declareren' ? 'active' : '' }}" href="{{ route('declareren') }}">Declareren</a>
+                                <a class="nav-link {{ Request::path() === 'rapporten' ? 'active' : '' }}" href="{{ route('rapporten') }}">Rapporten</a>
                             @elseif(Auth::user()->is_admin == true)
-                                <a class="nav-link" href="{{ route('login') }}">Home</a>
-                                <a class="nav-link" href="{{ route('login') }}">Projecten</a>
-                                <a class="nav-link" href="{{ route('login') }}">Kosten</a>
-                                <a class="nav-link" href="{{ route('login') }}">Consultants</a>
-                                <a class="nav-link" href="{{ route('login') }}">Rapporten</a>
+                                <a class="nav-link {{ Request::path() === 'admin/home' ? 'active' : '' }}" href="{{ route('admin.home') }}">Home</a>
+                                <a class="nav-link {{ Request::path() === 'admin/projecten' ? 'active' : '' }}" href="{{ route('admin.projecten') }}">Projecten</a>
+                                <a class="nav-link {{ Request::path() === 'admin/kosten' ? 'active' : '' }}" href="{{ route('admin.kosten') }}">Kosten</a>
+                                <a class="nav-link {{ Request::path() === 'admin/consultants' ? 'active' : '' }}" href="{{ route('admin.consultants') }}">Consultants</a>
+                                <a class="nav-link {{ Request::path() === 'admin/rapporten' ? 'active' : '' }}" href="{{ route('admin.rapporten') }}">Rapporten</a>
                             @endif
                         @endauth
                     </ul>
