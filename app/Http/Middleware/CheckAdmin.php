@@ -16,9 +16,17 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         if ($request->user()->is_admin == true) {
+            if (request()->path() === 'home') {
+                return redirect('admin/home');
+            }
+
             return $next($request);
         } else {
-            return redirect('test');
+            if (request()->path() === 'home') {
+                return $next($request);
+            }
+
+            return redirect('home');
         }
     }
 }

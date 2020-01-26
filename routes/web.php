@@ -23,5 +23,9 @@ Route::get('/rapporten', function () {return view('user.rapporten');})->name('ra
 
 // Routes voor admins
 Route::middleware(['auth', 'is_admin'])->group(function () {
-
+    Route::get('/admin/home', 'HomeController@index')->name('admin.home');
+    Route::get('/admin/projecten', function() {return view('HomeController@index');})->name('admin.projecten');
+    Route::get('/admin/kosten', function() {return view('HomeController@index');})->name('admin.kosten');
+    Route::get('/admin/consultants', function() {return view('HomeController@index');})->name('admin.consultants');
+    Route::get('/admin/rapporten', function() {return view('HomeController@index');})->name('admin.rapporten');
 });
