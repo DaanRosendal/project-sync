@@ -20,7 +20,7 @@ Route::get('/', function () {return view('welcome');});
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/declareren', 'DeclaratiesController@create')->name('declareren');
-Route::post('/declareren', 'DeclaratiesController@store')->name('declareren');
+Route::post('/declareren', 'DeclaratiesController@store');
 
 Route::get('/rapporten', function () {return view('user.rapporten');})->name('rapporten');
 

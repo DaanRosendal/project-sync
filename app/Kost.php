@@ -12,4 +12,8 @@ class Kost extends Model
      * @var string
      */
     protected $table = 'kosten';
+
+    public function declaraties(){
+        return $this->belongsToMany(Declaratie::class);
+    }
 }
