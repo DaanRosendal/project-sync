@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeclaratieKostenTable extends Migration
+class CreateDeclaratiesKostenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDeclaratieKostenTable extends Migration
      */
     public function up()
     {
-        Schema::create('declaratie_kosten', function (Blueprint $table) {
+        Schema::create('declaraties_kosten', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('declaratie_id');
             $table->unsignedBigInteger('kosten_id');
@@ -34,6 +34,6 @@ class CreateDeclaratieKostenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('declaratie_kosten');
+        Schema::dropIfExists('declaraties_kosten');
     }
 }
