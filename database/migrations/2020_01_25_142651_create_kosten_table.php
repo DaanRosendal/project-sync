@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectkostenTable extends Migration
+class CreateKostenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProjectkostenTable extends Migration
      */
     public function up()
     {
-        Schema::create('projectkosten', function (Blueprint $table) {
+        Schema::create('kosten', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('omschrijving', 50);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateProjectkostenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projectkosten');
+        Schema::dropIfExists('kosten');
     }
 }
