@@ -13,8 +13,8 @@
 
 Auth::routes();
 
-// Routes voor willekeurige bezoekers
-Route::get('/', function () {return view('welcome');});
+// Routes voor nieuwe bezoekers
+Route::get('/', function () {return view('welcome');})->middleware('is_logged_in');
 
 // Routes voor consultants
 Route::get('/home', 'HomeController@index')->name('home');

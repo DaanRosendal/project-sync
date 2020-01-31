@@ -35,7 +35,7 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             @if(Auth::user()->is_admin == false)
-                                <a class="nav-link {{ Request::path() === 'home' ? 'active' : '' }}" href="{{ route('login') }}">Home</a>
+                                <a class="nav-link {{ Request::path() === 'home' ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                                 <a class="nav-link {{ Request::path() === 'declareren' ? 'active' : '' }}" href="{{ route('declareren') }}">Declareren</a>
                                 <a class="nav-link {{ Request::path() === 'rapporten' ? 'active' : '' }}" href="{{ route('rapporten') }}">Rapporten</a>
                             @elseif(Auth::user()->is_admin == true)
