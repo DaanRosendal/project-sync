@@ -12,7 +12,7 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="projectnaam" class="col-md-4 col-form-label text-md-right">Project</label>
+                                <label for="project" class="col-md-4 col-form-label text-md-right">Project</label>
 
                                 <div class="col-md-6">
                                     <select id="project" type="text" class="form-control @error('project_id') is-invalid @enderror" name="project_id" required>
