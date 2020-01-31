@@ -15,10 +15,10 @@
                                 <label for="projectnaam" class="col-md-4 col-form-label text-md-right">Project</label>
 
                                 <div class="col-md-6">
-                                    <select id="project" type="text" class="form-control @error('project') is-invalid @enderror" name="project_id" value="{{ old('project') }}" required>
+                                    <select id="project" type="text" class="form-control @error('project_id') is-invalid @enderror" name="project_id" required>
                                         <option value="">Selecteer</option>
                                         @foreach ($projecten as $project)
-                                            @if (old('project') == $project->id)
+                                            @if (old('project_id') == $project->id)
                                                 <option value="{{ $project->id }}" selected>{{ $project->naam }}</option>
                                             @else
                                                 <option value="{{ $project->id }}">{{ $project->naam }}</option>
@@ -26,8 +26,8 @@
                                         @endforeach
                                     </select>
 
-                                    @error('project')
-                                    <span class="invalid-feedback" role="alert">
+                                    @error('project_id')
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -38,11 +38,11 @@
                                 <label for="kostenomschrijving" class="col-md-4 col-form-label text-md-right">Kostenomschrijving</label>
 
                                 <div class="col-md-6">
-                                    <select id="kostenomschrijving" type="text" class="form-control @error('kostenomschrijving') is-invalid @enderror"
+                                    <select id="kostenomschrijving" type="text" class="form-control @error('kosten_id') is-invalid @enderror"
                                             name="kosten_id" required onchange="veranderOmschrijving()">
                                         <option value="">Selecteer</option>
                                         @foreach ($kostenomschrijvingen as $kostenomschrijving)
-                                            @if (old('kostenomschrijving') == $kostenomschrijving->id)
+                                            @if (old('kosten_id') == $kostenomschrijving->id)
                                                 <option value="{{ $kostenomschrijving->id }}" selected>{{ $kostenomschrijving->omschrijving }}</option>
                                             @else
                                                 <option value="{{ $kostenomschrijving->id }}">{{ $kostenomschrijving->omschrijving }}</option>
@@ -51,7 +51,7 @@
                                     </select>
 
                                     @error('kostenomschrijving')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -63,13 +63,13 @@
 
                                 <div class="col-md-6" id="">
                                     <input type="text" id="bedrag" name="bedrag" class="form-control @error('bedrag') is-invalid @enderror" value="{{ old('bedrag') }}" required>
+                                    @error('bedrag')
+                                    <span>
+                                        <p class="text-danger" role="alert">{{ $message }}</p>
+                                    </span>
+                                    @enderror
                                 </div>
 
-                                @error('bedrag')
-                                <span class="invalid-feedback" role="alert">
-                                        <p><strong>{{ $message }}</strong></p>
-                                    </span>
-                                @enderror
                             </div>
 
 
@@ -101,22 +101,33 @@
 
         function checkBedrag()  {
             var e = document.getElementById("kostenomschrijving");
-            var omschrijving = e.options[e.selectedIndex].text;
+            var omschrijving = e.options[e.selectedIndex].value;
             var afstand = document.getElementById('bedrag').value;
 
-            if (omschrijving == "Reiskosten - Eigen Auto" && afstand < 10){
+            // Reiskosten - Eigen Auto
+            if (omschrijving == 101 && afstand < 10){
                 alert ("Reizen onder de 10 kilometer mag je niet declareren");
                 return false;
-            } else if (omschrijving == "Reiskosten - Eigen Auto" && afstand > 100){
+            } else if (omschrijving == 101 && afstand > 100){
                 alert ("Reizen boven de 100 kilometer mag je niet declareren. Hiervoor heb je speciale toestemming nodig.");
                 return false;
             }
 
-            return true;
-        }
+            var bedrag = document.getElementById('bedrag').value;
 
-        if (performance.navigation.type == 1) {
-            veranderOmschrijving();
+            // Boeken
+            if (omschrijving == 102 && bedrag > 100) {
+                alert("Boeken worden t/m 100 euro vergoed");
+                return false;
+            }
+
+            // Laptop
+            if (omschrijving == 201 && bedrag > 1000) {
+                alert("Laptops worden t/m 1000 euro vergoed");
+                return false;
+            }
+
+            return true;
         }
     </script>
 
