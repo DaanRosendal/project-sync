@@ -58,18 +58,18 @@ class DeclaratiesController extends Controller
             request()->validate([
                 'project_id' => 'required',
                 'kosten_id' => 'required',
-                'bedrag' => 'required|integer|between:10,100' // Is eigenlijk afstand in kilometer
+                'bedrag' => ['required', 'regex:/^\d+((.|,)\d{1,2})?$/'] // Is eigenlijk afstand in kilometer
             ]);
 
             // Bij Reiskosten - Eigen Auto is de vergoeding 50 cent per kilometer. Dus bedrag aka afstand / 2 is de vergoeding.
-            $bedrag = request()->bedrag / 2;
+            $bedrag = str_replace(',', '.', request()->bedrag / 2);
         } else {
             request()->validate([
                 'project_id' => 'required',
                 'kosten_id' => 'required',
-                'bedrag' => 'required|integer'
+                'bedrag' => ['required', 'regex:/^\d+((.|,)\d{1,2})?$/']
             ]);
-            $bedrag = request()->bedrag;
+            $bedrag = str_replace(',', '.', request()->bedrag);
         }
 
         // Check of de gebruiker al eerder een declaratie heeft aangevraagd bij dit project
