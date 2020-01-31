@@ -62,7 +62,7 @@
                                 <label for="bedrag" id="bedragLabel" id="bedragLabel" class="col-md-4 col-form-label text-md-right">Bedrag (€)</label>
 
                                 <div class="col-md-6" id="">
-                                    <input type="number"  id="bedrag" name="bedrag" class="form-control @error('bedrag') is-invalid @enderror" value="{{ old('bedrag') }}" required>
+                                    <input type="text" id="bedrag" name="bedrag" class="form-control @error('bedrag') is-invalid @enderror" value="{{ old('bedrag') }}" required>
                                 </div>
 
                                 @error('bedrag')

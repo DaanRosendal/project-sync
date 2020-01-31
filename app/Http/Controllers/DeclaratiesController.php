@@ -33,7 +33,7 @@ class DeclaratiesController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -47,10 +47,12 @@ class DeclaratiesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
+        // TODO Integrity Constraint Violation error handling: Je hebt deze kostenpost al gedeclareerd
+
         // Check of bij kostenomschrijving "Reiskosten - Eigen Auto" is ingevoerd
         if (request()->kosten_id == 101){
             request()->validate([
@@ -67,19 +69,40 @@ class DeclaratiesController extends Controller
                 'kosten_id' => 'required',
                 'bedrag' => 'required|integer'
             ]);
+            $bedrag = request()->bedrag;
         }
 
-        //TODO checken of declaratie al bestaat, ja: alleen link via declaratie_kost aanmaken
+        // Check of de gebruiker al eerder een declaratie heeft aangevraagd bij dit project
+        if (Declaratie::where([
+            ['user_id', '=', auth()->id()],
+            ['project_id', '=', request()->project_id]
+        ])->exists()){
+            // Selecteer declaratie_id om de kosten aan de bestaande declaratie te linken
+            $declaratie_id = Declaratie::select('id')->where([
+                ['user_id', '=', auth()->id()],
+                ['project_id', '=', request()->project_id]
+            ])->pluck('id');
 
-        $declaratie = new Declaratie(request(['project_id']));
-        $declaratie->user_id = auth()->id();
-        $declaratie->save();
+            // Eerste array item naar string
+            $declaratie_id = $declaratie_id[0];
 
-        //$declaratie->kosten()->attach(request(['kosten_id', $declaratie->id, 'bedrag']));
+            //dd($declaratie_id);
 
-        DB::table('declaratie_kost')->insert([
-           ['declaratie_id' => $declaratie->id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
-        ]);
+            // Maak kosten voor de declaratie aan
+            DB::table('declaratie_kost')->insert([
+                ['declaratie_id' => $declaratie_id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
+            ]);
+        } else {
+            // Maak nieuwe declaratie aan
+            $declaratie = new Declaratie(request(['project_id']));
+            $declaratie->user_id = auth()->id();
+            $declaratie->save();
+
+            // Maak kosten voor de declaratie aan
+            DB::table('declaratie_kost')->insert([
+                ['declaratie_id' => $declaratie->id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
+            ]);
+        }
 
         return redirect(route('declareren'));
     }
