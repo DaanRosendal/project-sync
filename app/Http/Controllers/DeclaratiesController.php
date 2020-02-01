@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Declaratie;
 use App\Project;
 use App\Kost;
+use Validator;
 use DB;
 use Illuminate\Http\Request;
 
@@ -53,6 +54,7 @@ class DeclaratiesController extends Controller
     {
         // TODO Integrity Constraint Violation error handling: Je hebt deze kostenpost al gedeclareerd
 
+
         // Check of bij kostenomschrijving "Reiskosten - Eigen Auto" is ingevoerd
         if (request()->kosten_id == 101){
             request()->validate([
@@ -62,7 +64,11 @@ class DeclaratiesController extends Controller
             ]);
 
             // Bij Reiskosten - Eigen Auto is de vergoeding 50 cent per kilometer. Dus bedrag aka afstand / 2 is de vergoeding.
-            $bedrag = str_replace(',', '.', request()->bedrag / 2);
+            $afstand = str_replace(',', '.', request()->bedrag);
+
+            // afstand na conversie van komma naar punt delen door 2
+            // (afstanden met eigen vervoer worden met 0,50 euro per km vergoed (dus delen door 2))
+            $bedrag = $afstand / 2;
         } else {
             request()->validate([
                 'project_id' => 'required',
@@ -83,15 +89,27 @@ class DeclaratiesController extends Controller
                 ['project_id', '=', request()->project_id]
             ])->pluck('id');
 
-            // Eerste array item naar string
+            // Array met als eerste item de declaratie id naar string
             $declaratie_id = $declaratie_id[0];
 
             //dd($declaratie_id);
 
             // Maak kosten voor de declaratie aan
-            DB::table('declaratie_kost')->insert([
-                ['declaratie_id' => $declaratie_id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
-            ]);
+            try {
+                DB::table('declaratie_kost')->insert([
+                    ['declaratie_id' => $declaratie_id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
+                ]);
+            } catch (\Exception $e){
+                // Error 23000 is een foreign key constraint violation, oftewel de kostenpost die gedeclareerd wordt is al eerder gedeclareerd
+                if ($e->getCode() == 23000) {
+                    return redirect()->back()->withErrors(['foreignKeyConstraintViolation' => 'd']);
+                }
+                //dd ($declaratie_id);
+                //return redirect()->back()->withErrors('test');
+                return $e->getMessage();
+
+            }
+
         } else {
             // Maak nieuwe declaratie aan
             $declaratie = new Declaratie(request(['project_id']));
