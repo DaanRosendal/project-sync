@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Declaratie;
 use App\Project;
 use App\Kost;
+use Carbon\Carbon;
 use Validator;
 use DB;
 use Illuminate\Http\Request;
@@ -92,7 +93,11 @@ class DeclaratiesController extends Controller
             // Maak kosten voor de declaratie aan
             try {
                 DB::table('declaratie_kost')->insert([
-                    ['declaratie_id' => $declaratie_id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
+                    ['declaratie_id' => $declaratie_id,
+                        'kost_id' => request('kosten_id'),
+                        'bedrag' => $bedrag,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()]
                 ]);
             } catch (\Exception $e){
                 // Error 23000 is een foreign key constraint violation, oftewel de kostenpost die gedeclareerd wordt is al eerder gedeclareerd
@@ -110,7 +115,11 @@ class DeclaratiesController extends Controller
 
             // Maak kosten voor de declaratie aan
             DB::table('declaratie_kost')->insert([
-                ['declaratie_id' => $declaratie->id, 'kost_id' => request('kosten_id'), 'bedrag' => $bedrag]
+                ['declaratie_id' => $declaratie->id,
+                    'kost_id' => request('kosten_id'),
+                    'bedrag' => $bedrag,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()]
             ]);
         }
 
