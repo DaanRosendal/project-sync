@@ -22,7 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/declareren', 'DeclaratiesController@create')->name('declareren');
 Route::post('/declareren', 'DeclaratiesController@store');
 
-Route::get('/rapporten', function () {return view('user.rapporten');})->name('rapporten');
+Route::get('/rapporten', 'RapportenController@showConsultants')->name('rapporten');
+Route::post('/rapporten', 'RapportenController@showRapport');
 
 // Routes voor admins
 Route::middleware(['auth', 'is_admin'])->group(function () {
