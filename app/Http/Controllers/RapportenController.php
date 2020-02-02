@@ -34,21 +34,21 @@ class RapportenController extends Controller
             ->join('users', 'declaraties.user_id', '=', 'users.id')
             ->join('declaratie_kost', 'declaraties.id' , '=', 'declaratie_kost.declaratie_id')
             ->join('kosten', 'declaratie_kost.kost_id', '=', 'kosten.id')
+            ->where('user_id', '=', request()->consultant_id)
+            ->orderByRaw('projecten.naam ASC, kosten.id')
             ->select(
-                'users.name as Consultant',
-                'projecten.naam as Projectnaam',
-                'kosten.id as Kostencode',
-                'kosten.omschrijving as Omschrijving',
-                'declaratie_kost.created_at as Datum',
-                'declaratie_kost.bedrag as Bedrag')
+                'users.name as consultant',
+                'projecten.naam as projectnaam',
+                'kosten.id as kostencode',
+                'kosten.omschrijving as omschrijving',
+                'declaratie_kost.created_at as datum',
+                'declaratie_kost.bedrag as bedrag')
             ->get();
-
-        dd($kosten);
 
         return view('user.rapporten', [
             'consultants' => Consultant::where('is_admin', '=', 0)->get(), // Alle users behalve admins
             'geselecteerdeConsultant' => Consultant::where('id', '=', request()->consultant_id)->first(),
-            'data' => $kosten,
+            'kosten' => $kosten,
         ]);
     }
 }
