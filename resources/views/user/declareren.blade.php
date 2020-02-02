@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+
                 @error('foreignKeyConstraintViolation')
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ $message }}
@@ -12,6 +13,7 @@
                         </button>
                     </div>
                 @enderror
+
                 <div class="card">
                     <div class="card-header">Declaratie indienen</div>
 
