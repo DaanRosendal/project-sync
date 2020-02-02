@@ -16,14 +16,17 @@ Auth::routes();
 // Routes voor nieuwe bezoekers
 Route::get('/', function () {return view('welcome');})->middleware('is_logged_in');
 
-// Routes voor consultants
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/declareren', 'DeclaratiesController@create')->name('declareren');
-Route::post('/declareren', 'DeclaratiesController@store');
+// Routes voor consultants
+Route::middleware(['auth'])->group(function () {
+    Route::get('/declareren', 'DeclaratiesController@create')->name('declareren');
+    Route::post('/declareren', 'DeclaratiesController@store');
 
-Route::get('/rapporten', 'RapportenController@showConsultants')->name('rapporten');
-Route::post('/rapporten', 'RapportenController@showRapport');
+    Route::get('/rapporten', 'RapportenController@showConsultants')->name('rapporten');
+    Route::post('/rapporten', 'RapportenController@showRapport');
+});
+
 
 // Routes voor admins
 Route::middleware(['auth', 'is_admin'])->group(function () {
