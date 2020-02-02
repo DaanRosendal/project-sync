@@ -48,13 +48,10 @@ class DeclaratiesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return string
      */
     public function store(Request $request)
     {
-        // TODO Integrity Constraint Violation error handling: Je hebt deze kostenpost al gedeclareerd
-
-
         // Check of bij kostenomschrijving "Reiskosten - Eigen Auto" is ingevoerd
         if (request()->kosten_id == 101){
             request()->validate([
@@ -92,8 +89,6 @@ class DeclaratiesController extends Controller
             // Array met als eerste item de declaratie id naar string
             $declaratie_id = $declaratie_id[0];
 
-            //dd($declaratie_id);
-
             // Maak kosten voor de declaratie aan
             try {
                 DB::table('declaratie_kost')->insert([
@@ -102,12 +97,9 @@ class DeclaratiesController extends Controller
             } catch (\Exception $e){
                 // Error 23000 is een foreign key constraint violation, oftewel de kostenpost die gedeclareerd wordt is al eerder gedeclareerd
                 if ($e->getCode() == 23000) {
-                    return redirect()->back()->withErrors(['foreignKeyConstraintViolation' => 'd']);
+                    return redirect()->back()->withErrors(['foreignKeyConstraintViolation' => 'Je hebt deze kosten al eerder gedeclareerd!']);
                 }
-                //dd ($declaratie_id);
-                //return redirect()->back()->withErrors('test');
                 return $e->getMessage();
-
             }
 
         } else {
