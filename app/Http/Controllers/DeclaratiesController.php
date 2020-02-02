@@ -123,7 +123,7 @@ class DeclaratiesController extends Controller
             ]);
         }
 
-        return redirect(route('declareren'));
+        return redirect(route('declareren'))->withSuccess('Declaratie ingediend!');
     }
 
     /**
