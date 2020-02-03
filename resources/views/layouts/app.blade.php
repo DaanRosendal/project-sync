@@ -43,7 +43,15 @@
                                 <a class="nav-link {{ Request::path() === 'admin/projecten' ? 'active' : '' }}" href="{{ route('admin.projecten') }}">Projecten</a>
                                 <a class="nav-link {{ Request::path() === 'admin/kosten' ? 'active' : '' }}" href="{{ route('admin.kosten') }}">Kosten</a>
                                 <a class="nav-link {{ Request::path() === 'admin/consultants' ? 'active' : '' }}" href="{{ route('admin.consultants') }}">Consultants</a>
-                                <a class="nav-link {{ Request::path() === 'admin/rapporten' ? 'active' : '' }}" href="{{ route('admin.rapporten') }}">Rapporten</a>
+                                <li class="nav-item dropdown {{ (Request::path() === 'admin/rapporten/consultants'||Request::path() === 'admin/rapporten/projecten') ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                        Rapporten
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item {{ Request::path() === 'admin/rapporten/consultants' ? 'active' : '' }}" href="{{ route('admin.rapporten.consultants') }}">Kosten per consultant</a>
+                                        <a class="dropdown-item {{ Request::path() === 'admin/rapporten/projecten' ? 'active' : '' }}" href="{{ route('admin.rapporten.projecten') }}">Kosten per project</a>
+                                    </div>
+                                </li>
                             @endif
                         @endauth
                     </ul>

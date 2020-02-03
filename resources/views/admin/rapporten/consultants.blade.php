@@ -15,9 +15,9 @@
                 @enderror
 
                 <div class="card">
-                    <div class="card-header">Rapporten inzien</div>
+                    <div class="card-header">Rapport 1 - Kosten per consultant</div>
                     <div class="card-body">
-                        <form method="POST" action="/rapporten">
+                        <form method="POST" action="/admin/rapporten/consultants">
                             @csrf
 
                             <div class="form-group row">
@@ -68,77 +68,78 @@
                             <div class="table-responsive-xl">
                                 <table class="table table-striped table-bordered mb-0">
                                     <thead>
-                                        <tr>
-                                            <th scope="col">Projectnaam</th>
-                                            <th scope="col">Kostencode</th>
-                                            <th scope="col">Omschrijving</th>
-                                            <th scope="col">Datum</th>
-                                            <th scope="col">Bedrag</th>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col">Projectnaam</th>
+                                        <th scope="col">Kostencode</th>
+                                        <th scope="col">Omschrijving</th>
+                                        <th scope="col">Datum</th>
+                                        <th scope="col">Bedrag</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @php $huidigeProjectnaam = ""; $totaal = 0; $subtotaal = 0; $aantalProjecten = 0;@endphp
-                                        @foreach($kosten as $kost)
+                                    @php $huidigeProjectnaam = ""; $totaal = 0; $subtotaal = 0; $aantalProjecten = 0;@endphp
+                                    @foreach($kosten as $kost)
+                                        @php
+                                            if($huidigeProjectnaam == $kost->projectnaam){
+                                                $huidigeProjectnaam = $kost->projectnaam;
+                                                $subtotaal += $kost->bedrag;
+                                            } else {
+                                                // Laat geen subtotalen zien bij de eerste iteration
+                                                if (!$loop->first){
+                                                    echo "
+                                                    <tr>
+                                                        <td colspan='3'></td>
+                                                        <th>Subtotaal</th>
+                                                        <th>&euro;" . str_replace('.', ',', $subtotaal) . "</th>
+                                                    </tr>";
+                                                }
+
+                                                $subtotaal = 0;
+                                                $subtotaal += $kost->bedrag;
+                                                $aantalProjecten++;
+                                            }
+                                        @endphp
+
+                                        <tr>
+
                                             @php
                                                 if($huidigeProjectnaam == $kost->projectnaam){
-                                                    $subtotaal += $kost->bedrag;
+                                                    echo "<td></td>";
                                                 } else {
-                                                    // Laat geen subtotalen zien bij de eerste iteration
-                                                    if (!$loop->first){
-                                                        echo "
-                                                        <tr>
-                                                            <td colspan='3'></td>
-                                                            <th>Subtotaal</th>
-                                                            <th>&euro;" . str_replace('.', ',', $subtotaal) . "</th>
-                                                        </tr>";
-                                                    }
-
-                                                    $subtotaal = 0;
-                                                    $subtotaal += $kost->bedrag;
-                                                    $aantalProjecten++;
+                                                    echo "<td>$kost->projectnaam</td>";
                                                 }
+                                                $huidigeProjectnaam = $kost->projectnaam;
                                             @endphp
 
-                                            <tr>
+                                            <td>{{ $kost->kostencode }}</td>
+                                            <td>{{ $kost->omschrijving }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($kost->datum)->format('j-n-Y')}}</td>
+                                            <td>&euro;{{ str_replace('.', ',', $kost->bedrag) }}</td>
+                                        </tr>
 
-                                                @php
-                                                    if($huidigeProjectnaam == $kost->projectnaam){
-                                                        echo "<td></td>";
-                                                    } else {
-                                                        echo "<td>$kost->projectnaam</td>";
-                                                    }
-                                                    $huidigeProjectnaam = $kost->projectnaam;
-                                                @endphp
+                                        @php $totaal += $kost->bedrag; @endphp
 
-                                                <td>{{ $kost->kostencode }}</td>
-                                                <td>{{ $kost->omschrijving }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($kost->datum)->format('j-n-Y')}}</td>
-                                                <td>&euro;{{ str_replace('.', ',', $kost->bedrag) }}</td>
-                                            </tr>
-
-                                            @php $totaal += $kost->bedrag; @endphp
-
-                                        @endforeach
-                                        @if($aantalProjecten > 1)
-                                            <tr>
-                                                <td colspan="3"></td>
-                                                <th>Subtotaal</th>
-                                                <th>&euro;@php echo str_replace('.', ',', $subtotaal); @endphp</th>
-                                            </tr>
-                                        @endif
+                                    @endforeach
+                                    @if($aantalProjecten > 1)
                                         <tr>
                                             <td colspan="3"></td>
-                                            <th>Totaal</th>
-                                            <th>&euro;@php echo str_replace('.', ',', $totaal); @endphp</th>
+                                            <th>Subtotaal</th>
+                                            <th>&euro;@php echo str_replace('.', ',', $subtotaal); @endphp</th>
                                         </tr>
+                                    @endif
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <th>Totaal</th>
+                                        <th>&euro;@php echo str_replace('.', ',', $totaal); @endphp</th>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
         </div>
     @endif
 @endsection

@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/declareren', 'DeclaratiesController@store');
 
     Route::get('/rapporten', 'RapportenController@showConsultants')->name('rapporten');
-    Route::post('/rapporten', 'RapportenController@showRapport');
+    Route::post('/rapporten', 'RapportenController@showRapportConsultants');
 });
 
 
@@ -34,5 +34,9 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/projecten', 'HomeController@index')->name('admin.projecten');
     Route::get('/admin/kosten', 'HomeController@index')->name('admin.kosten');
     Route::get('/admin/consultants', 'HomeController@index')->name('admin.consultants');
-    Route::get('/admin/rapporten', 'HomeController@index')->name('admin.rapporten');
+
+    Route::get('/admin/rapporten/consultants', 'RapportenController@showConsultants')->name('admin.rapporten.consultants');
+    Route::post('/admin/rapporten/consultants', 'RapportenController@showRapportConsultants');
+    Route::get('/admin/rapporten/projecten', 'RapportenController@showProjecten')->name('admin.rapporten.projecten');
+    Route::post('/admin/rapporten/projecten', 'RapportenController@showRapportProjecten');
 });
