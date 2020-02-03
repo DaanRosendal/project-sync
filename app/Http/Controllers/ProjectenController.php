@@ -23,7 +23,7 @@ class ProjectenController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -60,7 +60,7 @@ class ProjectenController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Project $project)
     {
@@ -85,8 +85,9 @@ class ProjectenController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Project  $project
+     * @param \App\Project $project
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Project $project)
     {
