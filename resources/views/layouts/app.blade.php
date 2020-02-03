@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/733442d4e1.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
@@ -40,7 +43,7 @@
                                 <a class="nav-link {{ Request::path() === 'rapporten' ? 'active' : '' }}" href="{{ route('rapporten') }}">Rapporten</a>
                             @elseif(Auth::user()->is_admin == true)
                                 <a class="nav-link {{ Request::path() === 'admin/home' ? 'active' : '' }}" href="{{ route('admin.home') }}">Home</a>
-                                <a class="nav-link {{ Request::path() === 'admin/projecten' ? 'active' : '' }}" href="{{ route('admin.projecten') }}">Projecten</a>
+                                <a class="nav-link {{ Request::path() === 'admin/projecten' ? 'active' : '' }}" href="{{ route('admin.projecten.index') }}">Projecten</a>
                                 <a class="nav-link {{ Request::path() === 'admin/kosten' ? 'active' : '' }}" href="{{ route('admin.kosten') }}">Kosten</a>
                                 <a class="nav-link {{ Request::path() === 'admin/consultants' ? 'active' : '' }}" href="{{ route('admin.consultants') }}">Consultants</a>
                                 <li class="nav-item dropdown {{ (Request::path() === 'admin/rapporten/consultants'||Request::path() === 'admin/rapporten/projecten') ? 'active' : '' }}">

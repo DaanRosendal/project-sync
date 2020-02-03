@@ -10,11 +10,14 @@ class ProjectenController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+
+        return view('admin.projecten.index', [
+            'projecten' => Project::all()
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ProjectenController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projecten.create');
     }
 
     /**
@@ -35,7 +38,11 @@ class ProjectenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate(['naam' => 'required']);
+        $project = new Project(request(['naam']));
+        $project->save();
+
+        return redirect(route('admin.projecten.index'))->withSuccess('Project ' . request()->naam . ' aangemaakt!');
     }
 
     /**
@@ -57,7 +64,7 @@ class ProjectenController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projecten.edit', compact('project'));
     }
 
     /**
@@ -69,7 +76,10 @@ class ProjectenController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $oudeNaam = $project->naam;
+        $project->update(request()->validate(['naam' => 'required']));
+
+        return redirect(route('admin.projecten.index'))->withSuccess('Project ' . $oudeNaam . ' is aangepast naar ' . request()->naam . '!');
     }
 
     /**
@@ -80,6 +90,8 @@ class ProjectenController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect(route('admin.projecten.index'))->withSuccess('Project ' . $project->naam . ' is verwijderd!');
     }
 }
