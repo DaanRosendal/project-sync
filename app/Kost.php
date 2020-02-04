@@ -13,6 +13,8 @@ class Kost extends Model
      */
     protected $table = 'kosten';
 
+    protected $fillable = ["omschrijving"];
+
     public function declaraties(){
         return $this->belongsToMany(Declaratie::class);
     }

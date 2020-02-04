@@ -14,7 +14,6 @@ class ProjectenController extends Controller
      */
     public function index()
     {
-
         return view('admin.projecten.index', [
             'projecten' => Project::all()
         ]);

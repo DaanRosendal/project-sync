@@ -41,10 +41,20 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/projecten/{project}/delete', 'ProjectenController@destroy')->name('admin.projecten.delete');
 
     // CRUD routes voor Kosten
-    Route::get('/admin/kosten', 'KostenController@index')->name('admin.kosten');
+    Route::get('/admin/kosten', 'KostenController@index')->name('admin.kosten.index');
+    Route::get('admin/kosten/create', 'KostenController@create')->name('admin.kosten.create');
+    Route::post('admin/kosten', 'KostenController@store');
+    Route::get('/admin/kosten/{kost}/edit', 'KostenController@edit')->name('admin.kosten.edit');
+    Route::put('admin/kosten/{kost}', 'KostenController@update');
+    Route::get('admin/kosten/{kost}/delete', 'KostenController@destroy')->name('admin.kosten.delete');
 
     // CRUD routes voor Consultants
-    Route::get('/admin/consultants', 'ConsultantsController@index')->name('admin.consultants');
+    Route::get('/admin/consultants', 'ConsultantsController@index')->name('admin.consultants.index');
+    Route::get('admin/consultants/create', 'ConsultantsController@create')->name('admin.consultants.create');
+    Route::post('admin/consultants', 'ConsultantsController@store');
+    Route::get('/admin/consultants/{consultant}/edit', 'ConsultantsController@edit')->name('admin.consultants.edit');
+    Route::put('admin/consultants/{consultant}', 'ConsultantsController@update');
+    Route::get('admin/consultants/{consultant}/delete', 'ConsultantsController@destroy')->name('admin.consultants.delete');
 
     // Routes voor rapporten
     Route::get('/admin/rapporten/consultants', 'RapportenController@showConsultants')->name('admin.rapporten.consultants');

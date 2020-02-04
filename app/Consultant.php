@@ -12,4 +12,6 @@ class Consultant extends Model
      * @var string
      */
     protected $table = 'users';
+
+    protected $fillable = ["name", "email", "password"];
 }

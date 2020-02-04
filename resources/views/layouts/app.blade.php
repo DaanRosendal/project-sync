@@ -44,8 +44,8 @@
                             @elseif(Auth::user()->is_admin == true)
                                 <a class="nav-link {{ Request::path() === 'admin/home' ? 'active' : '' }}" href="{{ route('admin.home') }}">Home</a>
                                 <a class="nav-link {{ Request::path() === 'admin/projecten' ? 'active' : '' }}" href="{{ route('admin.projecten.index') }}">Projecten</a>
-                                <a class="nav-link {{ Request::path() === 'admin/kosten' ? 'active' : '' }}" href="{{ route('admin.kosten') }}">Kosten</a>
-                                <a class="nav-link {{ Request::path() === 'admin/consultants' ? 'active' : '' }}" href="{{ route('admin.consultants') }}">Consultants</a>
+                                <a class="nav-link {{ Request::path() === 'admin/kosten' ? 'active' : '' }}" href="{{ route('admin.kosten.index') }}">Kosten</a>
+                                <a class="nav-link {{ Request::path() === 'admin/consultants' ? 'active' : '' }}" href="{{ route('admin.consultants.index') }}">Consultants</a>
                                 <li class="nav-item dropdown {{ (Request::path() === 'admin/rapporten/consultants'||Request::path() === 'admin/rapporten/projecten') ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                                         Rapporten

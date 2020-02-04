@@ -26,8 +26,8 @@
                                         <th scope="col">Naam</th>
                                         <th scope="col">Aangemaakt</th>
                                         <th scope="col">Aangepast</th>
-                                        <th scope="col"><i class="fas fa-edit fa-lg"></i></th>
-                                        <th scope="col"><i class="fas fa-trash-alt fa-lg"></i></th>
+                                        <th scope="col" style="width: 10px"><i class="fas fa-edit fa-lg"></i></th>
+                                        <th scope="col" style="width: 10px"><i class="fas fa-trash-alt fa-lg"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,9 +41,11 @@
                                                 <a href="{{ route('admin.projecten.edit', $project) }}"><i class="far fa-edit fa-lg"></i></a>
 
                                             </td>
-                                            <td><a href="{{ route('admin.projecten.delete', $project) }}"
+                                            <td>
+                                                <a href="{{ route('admin.projecten.delete', $project) }}"
                                                    onclick="return confirm('Weet je zeker dat je dit project wilt verwijderen? Je kunt dit niet ongedaan maken.')">
-                                                    <i class="far fa-trash-alt fa-lg"></i></a></td>
+                                                    <i class="far fa-trash-alt fa-lg"></i></a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
