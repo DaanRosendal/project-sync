@@ -19,6 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- Favicon -->
+    <link href=“{{asset('favicon.png')}}” rel=“icon” type=“image/x-icon”/>
+
+    <link rel="icon" href="{{ URL::asset('/favicon.png') }}" type="image/x-icon"/>
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/733442d4e1.js" crossorigin="anonymous"></script>
 </head>
