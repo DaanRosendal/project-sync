@@ -102,6 +102,9 @@ class ConsultantsController extends Controller
         } elseif ($oudeEmail != request()->email) {
             return redirect(route('admin.consultants.index'))
                 ->withSuccess('Consultant ' . $oudeNaam . '\'s e-mail is aangepast van ' . $oudeEmail . ' naar ' . request()->email . '!');
+        } else {
+            return redirect(route('admin.consultants.index'))
+                ->withSuccess('Je hebt niks veranderd, er zijn geen wijzigingen doorgevoerd!');
         }
     }
 
