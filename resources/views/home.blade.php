@@ -14,7 +14,25 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <h3 class="">Welkom, <strong>{{ auth()->user()->name }}</strong> -
+                        @if(auth()->user()->is_admin) Administrator
+                        @elseif(! auth()->user()->is_admin) Consultant
+                        @endif
+                    </h3>
+                    <hr />
+                    <p class="lead">
+                        @if(Auth::user()->is_admin == false)
+                            <a href="{{ route('declareren') }}">Declareren</a> |
+                            <a href="{{ route('rapporten') }}">Rapporten</a>
+                        @elseif(Auth::user()->is_admin == true)
+                            <a href="{{ route('admin.projecten.index') }}">Projecten</a> |
+                            <a href="{{ route('admin.kosten.index') }}" role="button">Kosten</a> |
+                            <a href="{{ route('admin.consultants.index') }}" role="button">Consultants</a> |
+
+                            <a href="{{ route('admin.rapporten.consultants') }}" role="button">Rapport 1</a> |
+                            <a href="{{ route('admin.rapporten.projecten') }}" role="button">Rapport 2</a>
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>
