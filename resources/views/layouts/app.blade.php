@@ -25,7 +25,7 @@
     <link rel="icon" href="{{ URL::asset('/favicon.png') }}" type="image/x-icon"/>
 
     <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/733442d4e1.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/733442d4e1.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
     <div id="app">
